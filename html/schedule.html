@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../css/schedule.css">
 
   <link rel="stylesheet" href="../css/adaptive/main-adaptive.css">
+  <link rel="stylesheet" href="../css/adaptive/student-adaptive.css">
 
   <title>Электронный журнал 40 || Расписание</title>
 </head>
@@ -138,8 +139,8 @@
       <div class="center-panel">
         <div class="main-header">
           <div class="main-header__title-container">
-            <h1 class="main-header__title">Дневник</h1>
-            <p class="main-header__sub-title">Анна Соколова 9 “А” класс <span class="razdelitel">*</span> <span class="quarter"> | четверть</span></p>
+            <h1 class="main-header__title">Расписание</h1>
+            <p class="main-header__sub-title"><span class="user-name">Соколова. А</span> <span class="user-class">9А</span> <span class="razdelitel">*</span> <span class="quarter"> | четверть</span></p>
           </div>
           <button class="export-btn">Экспорт в PDF</button>
         </div>
@@ -202,17 +203,16 @@
         
         <div id="journal-container"></div>
 
-
-
-
       </div>
     </div>
-
   </main>
 
-
-  <!-- <script src="../js/switch-day.js"></script> -->
   <script src="../js/main.js"></script>
+
+  <script src="../js/journal-func-template.js"></script>
   <script src="../js/journal-func-schedule.js"></script>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/header-core.js"></script>
 </body>
 </html>
