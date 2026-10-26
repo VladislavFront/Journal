@@ -102,6 +102,7 @@
   color: var(--sub-text-color-dark);
   font-size: var(--text-size-main-text);
   margin-top: 10px;
+  font-weight: 100;
 }
 
 .message__return {

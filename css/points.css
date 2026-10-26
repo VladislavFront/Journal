@@ -56,6 +56,7 @@
 .mark-cell {
   min-width: 35px;
   padding: 8px 4px;
+  font-weight: 100;
 }
 
 .journal-table td.mark-cell:hover {

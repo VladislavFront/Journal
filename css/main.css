@@ -10,6 +10,7 @@
   --active-color-dark: #403B6B;
   --active-excellent-color-dark: rgba(0, 176, 116, 0.1);
   --icon-color-dark: #8C52FF;
+  --icon-color-svg-dark: invert(39%) sepia(55%) saturate(5427%) hue-rotate(245deg) brightness(101%) contrast(101%);
   --notification-color-dark: #D32F2F;
 
   --excellent-color-dark: #00B074;
@@ -468,8 +469,19 @@ body, html {
   }
 }
 
+.aside-nav__list-item img {
+  /* opacity: 1; */
+  /* transition: var(--transition); */
+  transition: opacity 0.3s ease;
+}
+
+.aside-nav__list-item:hover img {
+  filter: brightness(0) saturate(100%) var(--icon-color-svg-dark);
+  /* filter: brightness(0) saturate(100%) var(--icon-color-svg--dark); */
+}
+
 .aside-nav__link {
-  display: block;
+  display: flex;
   width: 100%;
 
   color: var(--text-color-dark);

@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 4. ДИНАМИЧЕСКИЙ ВЫВОД КЛАССНОГО РУКОВОДИТЕЛЯ В САЙДБАРЕ
-  const teacherNames = document.querySelectorAll(".user-class-teacher__name, main h4");
+  const teacherNames = document.querySelectorAll(".user-class-teacher__sub-title");
   if (teacherNames.length > 0) {
     let currentTeacher = "Орлова Т.С.";
     

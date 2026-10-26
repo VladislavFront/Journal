@@ -229,6 +229,10 @@
   background-color: var(--bg-panel-dark);
 }
 
+.schedule-left__time {
+  color: var(--sub-text-color-dark);
+}
+
 .schedule-right {
   width: 100%;
   /* display: flex;
@@ -286,11 +290,9 @@
 
 .schedule-right__homework-text {
   font-size: var(--text-size-main-text);
+  color: var(--sub-text-color-dark);
   font-weight: 100;
 }
-
-
-
 
 
 

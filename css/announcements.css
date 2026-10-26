@@ -93,4 +93,5 @@
 
 .announcements-card-container__card-text {
   font-size: var(--text-size-main-text);
+  font-weight: 100;
 }

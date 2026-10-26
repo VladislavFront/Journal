@@ -76,3 +76,61 @@
     font-size: calc(var(--text-size-sub-text)* var(--text-scale-md));
   }
 }
+
+
+/* Печатные стили */
+
+@media print {
+  header, 
+  aside, 
+  .sidebar, 
+  .search-input, 
+  button, 
+  .print-btn, 
+  .pdf-btn, 
+  .btn-exit {
+    display: none !important;
+  }
+
+  html, body {
+    background: var(--text-color-dark) !important;
+    color: var(--text-color-light) !important;
+    font-family: "Helvetica Neue", Arial, sans-serif !important;
+    font-size: 11pt !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  main, 
+  .content, 
+  .diary-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: var(--text-color-dark) !important;
+  }
+
+  .searchable-item, 
+  .subject-card, 
+  div[class*="card"], 
+  tr, td {
+    background: #ffffff !important;
+    color: var(--text-color-light) !important;
+    border: 1px solid #e0e0e0 !important;
+    box-shadow: none !important;
+    margin-bottom: 10px !important;
+    page-break-inside: avoid;
+  }
+
+  h1, h2, h3, .subject-name, .day-title {
+    color: var(--text-color-light) !important;
+  }
+
+  .mark, span[class*="grade"] {
+    color: var(--text-color-light) !important;
+    font-weight: bold !important;
+    border: 1px solid var(--text-color-light) !important;
+    padding: 2px 6px !important;
+  }
+}
