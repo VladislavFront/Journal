@@ -31,50 +31,48 @@ document.addEventListener("DOMContentLoaded", () => {
       // ЭТАП 2: ПРОВЕРКА И АВТОМАТИЧЕСКАЯ РЕГИСТРАЦИЯ
       // ==========================================
 
-      // Загружаем текущую базу данных зарегистрированных пользователей из локальной памяти
-      // Если её нет, берем пустой массив (база учеников инициализируется в их скрипте)
+            // ==========================================
+      // ЭТАП 2: ПРОВЕРКА И АВТОМАТИЧЕСКАЯ РЕГИСТРАЦИЯ РОДИТЕЛЯ
+      // ==========================================
+
       let usersDB = JSON.parse(localStorage.getItem("global_school_users")) || [];
 
-      // Ищем, есть ли уже пользователь с такой почтой в нашей системе
       let userAccount = usersDB.find(u => u.email === inputEmail);
 
-      // ЕСЛИ ПОЛЬЗОВАТЕЛЯ НЕТ В БАЗЕ — МЫ ЕГО РЕГИСТРИРУЕМ КАК РОДИТЕЛЯ
       if (!userAccount) {
-        // Вычисляем буквы для аватарки (берем первые буквы Фамилии и Имени родителя)
         const nameParts = inputName.split(" ");
-        let avatarLetters = "РД"; // По умолчанию Родитель
+        let avatarLetters = "РД";
         if (nameParts.length >= 2) {
           avatarLetters = (nameParts[0][0] + nameParts[1][0]).toUpperCase();
         }
 
-        // Создаем новый аккаунт родителя
         userAccount = {
           email: inputEmail,
           name: inputName,
           avatar: avatarLetters,
-          role: "parent",       // Явно указываем роль, чтобы разделять интерфейсы
-          childrenIds: []       // Массив для ID будущих привязанных детей (пока пустой)
+          role: "parent",       
+          childrenIds: []       
         };
 
-        // Сохраняем нового родителя в общую локальную "БД" (localStorage)
         usersDB.push(userAccount);
         localStorage.setItem("global_school_users", JSON.stringify(usersDB));
-        
         console.log(`[База Данных] Зарегистрирован новый родитель: ${inputName}`);
       } else {
-        // ЕСЛИ ПОЛЬЗОВАТЕЛЬ С ТАКОЙ ПОЧТОЙ УЖЕ ЕСТЬ:
-        // 1. Проверяем, что это именно родитель, а не ученик пытается войти через форму родителя
-        if (userAccount.role !== "parent") {
-          alert("Ошибка авторизации!\nЭта почта зарегистрирована как аккаунт ученика. Используйте форму для учеников.");
+        // ИСПРАВЛЕНО: Если у аккаунта роль student ИЛИ роли нет вообще (базовые ученики Соколова/Петров) — не пускаем родителя!
+        if (userAccount.role === "student" || !userAccount.role) {
+          alert("Ошибка авторизации!\nЭта почта принадлежит ученику школы. Для родительского аккаунта используйте другую почту.");
           return;
         }
 
-        // 2. Проверяем, совпадают ли введенные ФИО с тем, что сохранено под этой почтой
         if (userAccount.name.toLowerCase() !== inputName.toLowerCase()) {
           alert("Ошибка авторизации!\nПользователь с такой почтой уже зарегистрирован, но введенное ФИО не совпадает.");
           return; 
         }
       }
+
+      sessionStorage.setItem("currentUser", JSON.stringify(userAccount));
+      window.location.href = "../parent/select-child.html";
+
 
       // ЛОГИКА АВТОРИЗАЦИИ: Записываем сессию родителя
       sessionStorage.setItem("currentUser", JSON.stringify(userAccount));

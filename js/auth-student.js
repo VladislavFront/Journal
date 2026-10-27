@@ -61,46 +61,53 @@ document.addEventListener("DOMContentLoaded", () => {
       // ЭТАП 2: ПРОВЕРКА И АВТОМАТИЧЕСКАЯ РЕГИСТРАЦИЯ
       // ==========================================
 
-      // Загружаем текущую базу данных зарегистрированных пользователей из локальной памяти
-      let usersDB = JSON.parse(localStorage.getItem("global_school_users"));
+            // ==========================================
+      // ЭТАП 2: ПРОВЕРКА И АВТОМАТИЧЕСКАЯ РЕГИСТРАЦИЯ УЧЕНИКА
+      // ==========================================
 
-      // Ищем, есть ли уже пользователь с такой почтой в нашей системе
+      let usersDB = JSON.parse(localStorage.getItem("global_school_users")) || [];
+
+      // Ищем пользователя с такой почтой
       let userAccount = usersDB.find(u => u.email === inputEmail);
 
-      // ЕСЛИ ПОЛЬЗОВАТЕЛЯ НЕТ В БАЗЕ — МЫ ЕГО РЕГИСТРИРУЕМ
       if (!userAccount) {
-        // Вычисляем буквы для аватарки (берем первые буквы Фамилии и Имени)
         const nameParts = inputName.split(" ");
         let avatarLetters = "УЧ";
         if (nameParts.length >= 2) {
           avatarLetters = (nameParts[0][0] + nameParts[1][0]).toUpperCase();
-        } else if (nameParts.length === 1 && nameParts[0].length > 0) {
-          avatarLetters = nameParts[0].substring(0, 2).toUpperCase();
         }
 
-        // Создаем новый аккаунт
+        // Создаем новый аккаунт ученика
         userAccount = {
           email: inputEmail,
           name: inputName,
           gradeClass: inputClass,
-          avatar: avatarLetters
+          avatar: avatarLetters,
+          role: "student" // ВАЖНО: явно пишем роль ученику!
         };
 
-        // Сохраняем нового юзера в нашу локальную "БД" (localStorage)
         usersDB.push(userAccount);
         localStorage.setItem("global_school_users", JSON.stringify(usersDB));
-        
         console.log(`[База Данных] Зарегистрирован новый ученик: ${inputName}`);
       } else {
-        // ЕСЛИ ПОЛЬЗОВАТЕЛЬ С ТАКОЙ ПОЧТОЙ УЖЕ ЕСТЬ:
-        // Проверяем, совпадают ли введенные ФИО и Класс с тем, что сохранено под этой почтой
+        // ЕСЛИ ПОЛЬЗОВАТЕЛЬ ЕСТЬ: Проверяем, что это не родитель ломится к ученикам
+        if (userAccount.role === "parent") {
+          alert("Ошибка авторизации!\nЭта почта зарегистрирована как аккаунт родителя.");
+          return;
+        }
+
+        // Проверяем данные
         if (userAccount.name.toLowerCase() !== inputName.toLowerCase() || 
-            userAccount.gradeClass.toLowerCase() !== inputClass.toLowerCase()) {
+            (userAccount.gradeClass && userAccount.gradeClass.toLowerCase() !== inputClass.toLowerCase())) {
           
           alert("Ошибка авторизации!\nПользователь с такой почтой уже зарегистрирован, но введенное ФИО или Класс не совпадают.");
-          return; // Блокируем вход, если данные не подходят под существующий email
+          return;
         }
       }
+
+      sessionStorage.setItem("currentUser", JSON.stringify(userAccount));
+      window.location.href = "../student/student.html";
+
 
       // ЛОГИКА АВТОРИЗАЦИИ: Записываем пользователя в текущую сессию
       sessionStorage.setItem("currentUser", JSON.stringify(userAccount));
